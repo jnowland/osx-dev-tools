@@ -19,7 +19,7 @@ Install
 
 Run the script:
 
-    curl -s https://raw.github.com/anthonyshort/laptop/master/mac | sh
+    curl -s https://raw.github.com/newism/osx-dev-tools/master/mac | sh
 
 
 What it sets up
