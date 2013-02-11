@@ -1,0 +1,6 @@
+#!/bin/sh
+
+source ~/.bash_profile.local
+
+echo "Installing capifony..."
+  gem install capifony

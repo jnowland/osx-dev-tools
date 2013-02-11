@@ -1,0 +1,5 @@
+echo "Installing Git Version Control..."
+  brew install git
+
+echo "Installing Git-Flow..."
+  brew install git-flow

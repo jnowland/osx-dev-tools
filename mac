@@ -1,22 +1,39 @@
 #!/bin/sh
 
-echo "Checking for SSH key, generating one if it doesn't exist ..."
+echo -e "\nChecking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
-echo "Copying public key to clipboard. Paste it into your Github account ..."
+echo -e "\nCopying public key to clipboard."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
 
-echo "SSH Key copied to clipboard! Open https://github.com/account/ssh to add your key"
+echo -e "\nOpen https://github.com/account/ssh to add your key"
+  read -s -n1 -p "Have you added your key to Github? [Y/n] " key
+  echo "\n Testing Github Authentication via ssh"
+  ssh -T git@github.com
 
-echo "Installing Homebrew, a good OS X package manager ..."
+echo -e "\nAdding Key Chain helper for Git"
+  curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
+  chmod u+x git-credential-osxkeychain
+  sudo mv git-credential-osxkeychain `dirname \`which git\``
+  git config --global credential.helper osxkeychain
+
+echo -e "\nInstalling Newism dot files..."
+  git clone git://github.com/newism/dotfiles.git ~/.dotfiles
+  bash ~/.dotfiles/bootstrap.sh
+  bash ~/.dotfiles/.osx
+
+echo -e "\nCreating ~/.bash_profile.local to store local bash config..."
+  touch ~/.bash_profile.local
+  echo 'export PATH=/usr/local/bin:$PATH' >> .bash_profile.local
+  source ~/.bash_profile.local
+  source ~/.bash_profile
+
+echo -e "\nInstalling Homebrew, a good OS X package manager ..."
   /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
   brew update
-  
-echo "Installing Git Version Control..."
-  brew install git
 
-echo "Installing Git-Flow..."
-  brew install git-flow
+echo 'export PATH="$(brew --prefix)/bin:$PATH"' >> .bash_profile.local
+  source ~/.bash_profile.local
 
 echo "Installing Phantom JS for Javascript testing..."
   brew install phantomjs
@@ -29,33 +46,10 @@ echo "Installing ImageMagick, good for cropping and re-sizing images ..."
 
 echo "Installing optipng, a PNG optimizer that recompresses the image files to a smaller size, without losing any information. ..."
   brew install optipng
-  
-echo "Installing Node..."
-  brew install node
 
-echo "Install NPM (Node Package Manager)..."
-  curl http://npmjs.org/install.sh | sh
-
-echo "Installing RVM (Ruby Version Manager)..."
-  curl -L https://get.rvm.io | bash -s stable --ruby
-
-echo "Updating Rubygems..."
-  gem update --system
-
-echo "Installing PHP..."
-  brew tap josegonzalez/homebrew-php
-  brew install php53 --with-mysql --with-intl
-
-echo "Updating Profile..."
-  echo 'export PATH=/usr/local/bin:$PATH' >> .bash_profile
-  echo '[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm' >> .bash_profile
-  echo 'export PATH=$PATH:~/.gem/ruby/1.8/bin' >> .bash_profile
-  echo 'export PATH="$(brew --prefix josegonzalez/php/php53)/bin:$PATH"' >> .bash_profile
-
-source ~/.rvm/scripts/rvm
 source ~/.bash_profile
-source ~/.bashrc
 
-curl -s https://raw.github.com/anthonyshort/laptop/master/ruby | sh
-curl -s https://raw.github.com/anthonyshort/laptop/master/node | sh
-curl -s https://raw.github.com/anthonyshort/laptop/master/php | sh
+curl -s https://raw.github.com/newism/laptop/master/git | sh
+curl -s https://raw.github.com/newism/laptop/master/ruby | sh
+curl -s https://raw.github.com/newism/laptop/master/node | sh
+curl -s https://raw.github.com/newism/laptop/master/php | sh

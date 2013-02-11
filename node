@@ -1,5 +1,8 @@
 #!/bin/sh
-  
+
+echo "Installing Node & NPM (Node Package Manager)..."
+  brew install node
+
 echo "Installing Coffeescript..."
   npm install -g coffee-script
 
@@ -31,3 +34,4 @@ echo "Installing Jade templating engine..."
 echo "Installing JS2Coffee for converting projects to Coffeescript..."
   npm install -g js2coffee
 
+source ~/.bash_profile
