@@ -62,6 +62,7 @@ echo "Installing optipng, a PNG optimizer that recompresses the image files to a
 
 source ~/.bash_profile
 
+curl -s https://raw.github.com/newism/laptop/master/git | sh
 curl -s https://raw.github.com/newism/laptop/master/ruby | sh
 curl -s https://raw.github.com/newism/laptop/master/node | sh
 curl -s https://raw.github.com/newism/laptop/master/php | sh
