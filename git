@@ -1,16 +1,4 @@
-echo  "Installing Git..."
-  brew install git
-
-echo  "Adding Key Chain helper for Git..."
-  echo "git config --global credential.helper osxkeychain" >> .bash_profile.local
-
-echo "Adding Global Git Config..."
-  echo  "Whats your name? [Enter]: "
-  read name
-  echo "What's your email? [Enter]: "
-  read email
-  echo "git config --global user.name \"$name\"" >> .bash_profile.local
-  echo "git config --global user.email \"$email\"" >> .bash_profile.local
+#!/bin/sh
 
 echo  "Installing Gitflow..."
   brew install git-flow
