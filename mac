@@ -1,7 +1,28 @@
 #!/bin/sh
 
+echo -e "\nInstalling Homebrew, a good OS X package manager ..."
+  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
+  brew update
+
+echo 'export PATH="$(brew --prefix)/bin:$PATH"' >> .bash_profile.local
+  source ~/.bash_profile.local
+
+echo -e "\nInstalling Git..."
+  brew install git
+
 echo -e "\nChecking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
+
+echo -e "\nInstalling Newism dot files..."
+  git clone git://github.com/newism/dotfiles.git ~/.dotfiles
+  bash ~/.dotfiles/bootstrap.sh
+  bash ~/.dotfiles/.osx
+
+echo -e "\nCreating ~/.bash_profile.local to store local bash config..."
+  touch ~/.bash_profile.local
+  echo 'export PATH=/usr/local/bin:$PATH' >> .bash_profile.local
+  source ~/.bash_profile.local
+  source ~/.bash_profile
 
 echo -e "\nCopying public key to clipboard."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
@@ -17,23 +38,6 @@ echo -e "\nAdding Key Chain helper for Git"
   sudo mv git-credential-osxkeychain `dirname \`which git\``
   git config --global credential.helper osxkeychain
 
-echo -e "\nInstalling Newism dot files..."
-  git clone git://github.com/newism/dotfiles.git ~/.dotfiles
-  bash ~/.dotfiles/bootstrap.sh
-  bash ~/.dotfiles/.osx
-
-echo -e "\nCreating ~/.bash_profile.local to store local bash config..."
-  touch ~/.bash_profile.local
-  echo 'export PATH=/usr/local/bin:$PATH' >> .bash_profile.local
-  source ~/.bash_profile.local
-  source ~/.bash_profile
-
-echo -e "\nInstalling Homebrew, a good OS X package manager ..."
-  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
-  brew update
-
-echo 'export PATH="$(brew --prefix)/bin:$PATH"' >> .bash_profile.local
-  source ~/.bash_profile.local
 
 echo "Installing Phantom JS for Javascript testing..."
   brew install phantomjs
