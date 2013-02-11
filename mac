@@ -1,43 +1,52 @@
 #!/bin/sh
 
-echo -e "\nInstalling Homebrew, a good OS X package manager ..."
-  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
-  brew update
+# Show Hidden Files in OSX
+echo  "Showing Hidden Files in OSX..."
+  defaults write com.apple.finder AppleShowAllFiles TRUE
+  killall Finder
 
-echo 'export PATH="$(brew --prefix)/bin:$PATH"' >> .bash_profile.local
-  source ~/.bash_profile.local
+# Install Homebrew
+echo  "Installing Homebrew, a good OS X package manager ..."
+  ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+  brew doctor
 
-echo -e "\nInstalling Git..."
-  brew install git
-
-echo -e "\nChecking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
+# Create SSH Keys nd prompt user to add them to Github
+echo  "Checking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
-echo -e "\nInstalling Newism dot files..."
-  git clone git://github.com/newism/dotfiles.git ~/.dotfiles
-  bash ~/.dotfiles/bootstrap.sh
-  bash ~/.dotfiles/.osx
-
-echo -e "\nCreating ~/.bash_profile.local to store local bash config..."
-  touch ~/.bash_profile.local
-  echo 'export PATH=/usr/local/bin:$PATH' >> .bash_profile.local
-  source ~/.bash_profile.local
-  source ~/.bash_profile
-
-echo -e "\nCopying public key to clipboard."
+echo  "Copying public key to clipboard."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
 
-echo -e "\nOpen https://github.com/account/ssh to add your key"
-  read -s -n1 -p "Have you added your key to Github? [Y/n] " key
+echo  "Open https://github.com/account/ssh to add your key [Enter]: "
+  read key
   echo "\n Testing Github Authentication via ssh"
   ssh -T git@github.com
 
-echo -e "\nAdding Key Chain helper for Git"
-  curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
-  chmod u+x git-credential-osxkeychain
-  sudo mv git-credential-osxkeychain `dirname \`which git\``
-  git config --global credential.helper osxkeychain
+# Install Git
+echo  "Installing Git..."
+  brew install git
 
+# Before we do any config install our dotfiles
+echo  "Installing Newism dot files..."
+  git clone git://github.com/newism/dotfiles.git ~/.dotfiles
+  bash ~/.dotfiles/bootstrap.sh
+  bash ~/.dotfiles/osx
+  source ~/.bash_profile
+
+echo  "Creating ~/.bash_profile.local to store local bash config..."
+  echo 'export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"' >> ~/.bash_profile.local
+  echo 'export PATH="$(brew --prefix)/bin:$PATH"' >> .bash_profile.local
+
+echo  "Adding Key Chain helper for Git to ~/.bash_profile.local..."
+  echo "git config --global credential.helper osxkeychain" >> .bash_profile.local
+
+echo "Adding Global Git Config..."
+  echo  "Whats your name? [Enter]: "
+  read name
+  echo "What's your email? [Enter]: "
+  read email
+  echo "git config --global user.name \"$name\"" >> .bash_profile.local
+  echo "git config --global user.email \"$email\"" >> .bash_profile.local
 
 echo "Installing Phantom JS for Javascript testing..."
   brew install phantomjs
@@ -53,7 +62,6 @@ echo "Installing optipng, a PNG optimizer that recompresses the image files to a
 
 source ~/.bash_profile
 
-curl -s https://raw.github.com/newism/laptop/master/git | sh
 curl -s https://raw.github.com/newism/laptop/master/ruby | sh
 curl -s https://raw.github.com/newism/laptop/master/node | sh
 curl -s https://raw.github.com/newism/laptop/master/php | sh
