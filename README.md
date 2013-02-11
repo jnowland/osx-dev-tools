@@ -1,7 +1,7 @@
-Laptop
-======
+OSX Dev Tools
+=============
 
-Laptop is a script to set up your Max OS X laptop as a web development machine.
+OSX Dev Tools is a script to set up your Max OS X laptop as a web development machine.
 
 Requirements
 ------------
@@ -39,7 +39,7 @@ What it sets up
 * NPM (Node package manager)
 * Coffeescript
 * Bunch of commonly-used node packages
-* PHP, Composer and xdebug (https://github.com/josegonzalez/homebrew-php)
+* PHP 5.3 & PHP 5.4 w/ intl, apc, xdebug, twig and composer (https://github.com/josegonzalez/homebrew-php)
 
 It should take about 30 minutes for everything to install, depending on your machine.
 
@@ -63,7 +63,13 @@ Find this line in `/etc/apache2/httpd.conf` starting with:
 
 And replace the path with:
 
-    LoadModule php5_module /usr/local/Cellar/php53/5.3.14/libexec/apache2/libphp5.so
+    # PHP 5.3
+    LoadModule php5_module /usr/local/opt/php53/libexec/apache2/libphp5.so
+
+or
+
+    # PHP 5.4
+    LoadModule php5_module /usr/local/opt/php53/libexec/apache2/libphp5.so
     
 Add this line to the bottom of the file:
 
@@ -72,13 +78,14 @@ Add this line to the bottom of the file:
 Setting up x-debug
 ------------------
 
-The php.ini file is located in `/usr/local/etc/php/5.3/php.ini`. You'll need to add these settings to the bottom 
+The php.ini file is located in `/usr/local/etc/php/5.3/conf.d/ext-xdebug.ini`. You'll need to add these settings to the bottom 
 of the file and restart Apache.
 
 ```
 [xdebug]
-zend_extension=/usr/local/Cellar/php53-xdebug/2.2.0/xdebug.so
-xdebug.file_link_format="txmt://open?url=file://%f&line=%1"
+zend_extension="/usr/local/Cellar/php53-xdebug/2.2.1/xdebug.so"
+
+xdebug.file_link_format="txmt://open?url=file://%%f&line=%%l"
 xdebug.default_enable=1
 xdebug.scream=1
 xdebug.cli_color=1
@@ -94,9 +101,9 @@ xdebug.profiler_enable_trigger = 1
 xdebug.remote_enable=1
 xdebug.remote_handler=dbgp
 xdebug.remote_port=9000
-xdebug.remote_host=localhost
+xdebug.remote_host=127.0.0.1
 xdebug.remote_autostart=1
-xdebug.idekey=XDEBUG_ECLIPSE
+xdebug.idekey=PHPSTORM
 xdebug.extended_info=1
 ```
 
@@ -108,11 +115,9 @@ I use [VirtualHostX](http://clickontyler.com/virtualhostx/) for all of my Virtua
 Recommended Apps
 ----------------
 
-* [Chrome Canary](https://tools.google.com/dlpage/chromesxs/)
 * [Chrome](https://www.google.com/chrome/)
 * [Firefox](http://www.mozilla.org/en-US/firefox/new/)
 * [Sublime Text 2](http://www.sublimetext.com/)
-* [Gitbox](http://www.gitboxapp.com/)
 * [VirtualHostX](http://clickontyler.com/virtualhostx/)
 * [Sequel Pro](http://www.sequelpro.com/)
 
