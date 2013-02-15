@@ -11,9 +11,6 @@ Requirements
 * [X11](http://xquartz.macosforge.org/trac/wiki)
 * [MySQL](http://www.mysql.com/downloads/mysql/)
 
-If you don't want to get XCode you can try getting the [Command Line Tools for Mountain Lion](http://adcdownload.apple.com/ios/ios_simulator__resigned/cltools_mountainliondp2_march12.dmg) but your milage may vary. You're better off just getting XCode.
-
-
 Install
 -------
 
