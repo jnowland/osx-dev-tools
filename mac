@@ -11,6 +11,9 @@ echo  "Installing Homebrew, a good OS X package manager ..."
   brew doctor
   brew tap homebrew/dupes
 
+echo  "Installing Apple GCC Compiler ..."
+  brew install apple-gcc42
+
 # Create SSH Keys nd prompt user to add them to Github
 echo  "Checking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
