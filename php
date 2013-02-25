@@ -16,6 +16,8 @@ echo "Installing PHP 5.4 Twig..."
 echo "Installing PHP 5.4 intl..."
     brew install php54-intl
 
+echo "\nNow update the date.timezone setting in /usr/local/etc/php/5.4/php.ini [Enter]"
+
 echo "Unlinking PHP 5.4 in order to install PHP 5.3"
     brew unlink php54
 
@@ -34,7 +36,7 @@ echo "Installing PHP 5.3 Twig..."
 echo "Installing PHP 5.3 intl..."
     brew install php53-intl
 
-
+echo "\nNow update the date.timezone setting in /usr/local/etc/php/5.3/php.ini [Enter]"
 
 echo "Installing Composer (PHP package manager)..."
     brew install composer
