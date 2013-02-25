@@ -14,7 +14,7 @@ echo "Installing PHP 5.4 Twig..."
     brew install php54-twig
 
 echo "Installing PHP 5.4 intl..."
-    brew install php54-apc
+    brew install php54-intl
 
 echo "Unlinking PHP 5.4 in order to install PHP 5.3"
     brew unlink php54
@@ -32,7 +32,9 @@ echo "Installing PHP 5.3 Twig..."
     brew install php53-twig
 
 echo "Installing PHP 5.3 intl..."
-    brew install php53-apc
+    brew install php53-intl
+
+
 
 echo "Installing Composer (PHP package manager)..."
     brew install composer
