@@ -4,6 +4,9 @@ echo "Tapping josegonzalez/homebrew-php..."
 echo "Installing PHP 5.4..."
     brew install php54
 
+echo "Updating the date.timezone setting in /usr/local/etc/php/5.4/php.ini"
+    sed -i .bak 's/\;date.timezone =/date.timezone = "Australia\/Sydney"/g' /usr/local/etc/php/5.4/php.ini
+
 echo "Installing PHP 5.4 xDebug..."
     brew install php54-xdebug
 
@@ -16,13 +19,14 @@ echo "Installing PHP 5.4 Twig..."
 echo "Installing PHP 5.4 intl..."
     brew install php54-intl
 
-echo "\nNow update the date.timezone setting in /usr/local/etc/php/5.4/php.ini [Enter]"
-
 echo "Unlinking PHP 5.4 in order to install PHP 5.3"
     brew unlink php54
 
 echo "Installing PHP 5.3..."
     brew install php53
+
+echo "Updating the date.timezone setting in /usr/local/etc/php/5.3/php.ini"
+    sed -i .bak 's/\;date.timezone =/date.timezone = "Australia\/Sydney"/g' /usr/local/etc/php/5.3/php.ini
 
 echo "Installing PHP 5.3 xDebug..."
     brew install php53-xdebug
@@ -35,8 +39,6 @@ echo "Installing PHP 5.3 Twig..."
 
 echo "Installing PHP 5.3 intl..."
     brew install php53-intl
-
-echo "\nNow update the date.timezone setting in /usr/local/etc/php/5.3/php.ini [Enter]"
 
 echo "Installing Composer (PHP package manager)..."
     brew install composer
