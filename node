@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source ~/.bash_profile
+
 echo "Installing Node & NPM (Node Package Manager)..."
   brew install node
 
