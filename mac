@@ -11,9 +11,6 @@ echo  "Installing Homebrew, a good OS X package manager ..."
   brew doctor
   brew tap homebrew/dupes
 
-echo  "Installing Apple GCC Compiler ..."
-  brew install apple-gcc42
-
 # Create SSH Keys nd prompt user to add them to Github
 echo  "Checking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
@@ -21,7 +18,7 @@ echo  "Checking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't e
 echo  "Copying public key to clipboard."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
 
-echo  "Open https://github.com/account/ssh to add your key [Enter]: "
+echo  "Browse to https://github.com/account/ssh to add your key [Enter]: "
   read key
   echo "\n Testing Github Authentication via ssh"
   ssh -T git@github.com
@@ -29,6 +26,9 @@ echo  "Open https://github.com/account/ssh to add your key [Enter]: "
 # Install Git
 echo  "Installing Git..."
   brew install git
+
+echo  "Installing Apple GCC Compiler ..."
+  brew install apple-gcc42
 
 # Before we do any config install our dotfiles
 echo  "Installing Newism dot files..."
@@ -45,12 +45,12 @@ echo  "Adding Key Chain helper for Git to ~/.bash_profile.local..."
   echo "git config --global credential.helper osxkeychain" >> .bash_profile.local
 
 echo "Adding Global Git Config..."
-  echo  "Whats your name? [Enter]: "
+  echo  "\nWhats your name? [Enter]: "
   read name
-  echo "What's your email? [Enter]: "
+  echo "\nWhat's your email? [Enter]: "
   read email
-  echo 'git config --global user.name "$name"' >> .bash_profile.local
-  echo 'git config --global user.email "$email"' >> .bash_profile.local
+  echo "git config --global user.name '$name'" >> .bash_profile.local
+  echo "git config --global user.email '$email'" >> .bash_profile.local
 
 echo "Installing Phantom JS for Javascript testing..."
   brew install phantomjs
