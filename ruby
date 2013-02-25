@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ~/.bash_profile.local
+source ~/.bash_profile
 
 echo "Installing RVM (Ruby Version Manager) and Ruby 1.9.3-p327, which becomes the default ..."
   curl -L https://get.rvm.io | bash -s stable
@@ -9,7 +9,7 @@ echo "Installing RVM (Ruby Version Manager) and Ruby 1.9.3-p327, which becomes t
 [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.bash_profile.local
   source ~/.bash_profile
   source ~/.rvm/scripts/rvm
-  source /usr/local/rvm/scripts/rvm
+  source /Users/`whoami`/.rvm/scripts/rvm
   brew install autoconf automake libtool pkg-config openssl readline libyaml sqlite libxml2 libxslt libksba
   rvm install 1.9.3
   rvm use 1.9.3 --default
@@ -44,3 +44,5 @@ echo "Installing Rails to write and run web applications ..."
 
 echo "Updating Rubygems..."
   gem update
+
+source ~/.bash_profile
