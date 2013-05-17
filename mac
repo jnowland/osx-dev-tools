@@ -23,7 +23,7 @@ echo  "Add your ssh key to https://github.com/account/ssh [Enter]: "
   open https://github.com/account/ssh
 
 echo "\n Test Github Authentication via ssh [Enter]:"
-  read key
+	read key
 	echo "\n Testing..."
   ssh -T git@github.com
 
@@ -72,4 +72,4 @@ echo "Installing ImageMagick, good for cropping and re-sizing images ..."
 echo "Installing optipng, a PNG optimizer that recompresses the image files to a smaller size, without losing any information. ..."
   brew install optipng
 
-		source .bash_profile.local
+source .bash_profile.local
