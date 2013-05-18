@@ -1,45 +1,95 @@
-echo "Tapping josegonzalez/homebrew-php..."
+#!/bin/sh
+
+source ~/.bash_profile
+source ./lib/utils
+
+# PHP
+
+e_header "Tapping josegonzalez/homebrew-php..."
     brew tap josegonzalez/homebrew-php
 
-echo "Installing PHP 5.4..."
-    brew install php54
+# PHP 5.4
 
-echo "Updating the date.timezone setting in /usr/local/etc/php/5.4/php.ini"
+e_header "Installing PHP 5.4..."
+  brew unlink php53
+  brew install php54
+
+e_header "Updating the date.timezone setting in /usr/local/etc/php/5.4/php.ini"
     sed -i .bak 's/\;date.timezone =/date.timezone = "Australia\/Sydney"/g' /usr/local/etc/php/5.4/php.ini
 
-echo "Installing PHP 5.4 xDebug..."
+e_header "Installing PHP 5.4 xDebug..."
     brew install php54-xdebug
 
-echo "Installing PHP 5.4 APC..."
+e_header "Installing PHP 5.4 APC..."
     brew install php54-apc
 
-echo "Installing PHP 5.4 Twig..."
+e_header "Installing PHP 5.4 Twig..."
     brew install php54-twig
 
-echo "Installing PHP 5.4 intl..."
+e_header "Installing PHP 5.4 intl..."
     brew install php54-intl
 
-echo "Unlinking PHP 5.4 in order to install PHP 5.3"
+e_header "Fixing PEAR permissions"
+  chmod -R ug+w $(brew --prefix php54)/lib/php
+  pear config-set php_ini /usr/local/etc/php/5.4/php.ini
+
+e_header "Installing PHP_CodeSniffer..."
+  pear install PHP_CodeSniffer
+  phpcsPath="$(brew --prefix php53)/lib/php/PHP/CodeSniffer/Standards"
+  # read -p "Enter the path to your PHP_CodeSniffer standards [$phpcsPath]:" input
+  # phpcsPath="${input:-$phpcsPath}"
+  cd $phpcsPath
+  git clone git://github.com/opensky/Symfony2-coding-standard.git Symfony2
+  phpcs --config-set default_standard Symfony2
+
+e_header "Unlinking PHP 5.4 in order to install PHP 5.3"
     brew unlink php54
 
-echo "Installing PHP 5.3..."
-    brew install php53
+# PHP 5.3
 
-echo "Updating the date.timezone setting in /usr/local/etc/php/5.3/php.ini"
+source ~/.bash_profile
+
+e_header "Installing PHP 5.3..."
+  brew unlink php54
+  brew install php53
+
+e_header "Updating the date.timezone setting in /usr/local/etc/php/5.3/php.ini"
     sed -i .bak 's/\;date.timezone =/date.timezone = "Australia\/Sydney"/g' /usr/local/etc/php/5.3/php.ini
 
-echo "Installing PHP 5.3 xDebug..."
+e_header "Installing PHP 5.3 xDebug..."
     brew install php53-xdebug
 
-echo "Installing PHP 5.3 APC..."
+e_header "Installing PHP 5.3 APC..."
     brew install php53-apc
 
-echo "Installing PHP 5.3 Twig..."
+e_header "Installing PHP 5.3 Twig..."
     brew install php53-twig
 
-echo "Installing PHP 5.3 intl..."
+e_header "Installing PHP 5.3 intl..."
     brew install php53-intl
 
-echo "Installing Composer (PHP package manager)..."
-    brew install composer
-    composer self-update
+e_header "Fixing PEAR permissions"
+  chmod -R ug+w $(brew --prefix php53)/lib/php
+  pear config-set php_ini /usr/local/etc/php/5.3/php.ini
+
+e_header "Installing PHP_CodeSniffer..."
+  pear install PHP_CodeSniffer
+  phpcsPath="$(brew --prefix php53)/lib/php/PHP/CodeSniffer/Standards"
+  # read -p "Enter the path to your PHP_CodeSniffer standards [$phpcsPath]:" input
+  # phpcsPath="${input:-$phpcsPath}"
+  cd $phpcsPath
+  git clone git://github.com/opensky/Symfony2-coding-standard.git Symfony2
+  phpcs --config-set default_standard Symfony2
+
+e_header "Installing Composer (PHP package manager)..."
+  brew install composer
+  composer self-update
+
+e_header "Installing Capifony..."
+  gem install capifony
+
+e_header "Installing PHP CS Fixer..."
+  curl http://cs.sensiolabs.org/get/php-cs-fixer.phar -o /usr/local/bin/php-cs-fixer
+  chmod a+x /usr/local/bin/php-cs-fixer
+
+source ~/.bash_profile

@@ -1,44 +1,46 @@
-!/bin/sh
+#!/bin/bash
 
-Show Hidden Files in OSX
-echo  "Showing Hidden Files in OSX..."
-  defaults write com.apple.finder AppleShowAllFiles TRUE
-  killall Finder
+source ~/.bash_profile
+source ./lib/utils
 
 # Install Homebrew
-echo  "Installing Homebrew, a good OS X package manager ..."
+e_header  "Installing Homebrew, a good OS X package manager ..."
   ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
   brew doctor
   brew tap homebrew/dupes
 
-Create SSH Keys nd prompt user to add them to Github
-echo  "Checking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
+# Create SSH Keys nd prompt user to add them to Github
+e_header  "Checking for SSH key in ~/.ssh/id_rsa.pub, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
-echo  "Copying public key to clipboard."
+e_header  "Copying public key to clipboard."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
 
-echo  "Add your ssh key to https://github.com/account/ssh [Enter]: "
-  read key
+# Add SSH keys to Github
+e_header  "Add your ssh key to Github"
+  seek_confirmation "Open https://github.com/account/ssh in your browser"
+  if is_confirmed; then
   open https://github.com/account/ssh
+  fi
 
-echo "\n Test Github Authentication via ssh [Enter]:"
-	read key
-	echo "\n Testing..."
+seek_confirmation "Test Github Authentication via ssh"
+  if is_confirmed; then
+  printf "\n Testing..."
   ssh -T git@github.com
+  fi
 
-# Install Git
-echo  "Installing Git..."
+# Install Homebrew Git
+e_header  "Installing Git..."
   brew install git
 
 # Before we do any config install our dotfiles
-echo  "Installing Newism dot files..."
+e_header  "Installing Newism dot files..."
   git clone git://github.com/leevigraham/dotfiles.git ~/.dotfiles
-  bash ~/.dotfiles/bootstrap.sh
-  bash ~/.dotfiles/osx.sh
+  ~/.dotfiles/bin/dotfiles
+  ~/.dotfiles/bin/osx
   source ~/.bash_profile
 
-echo "Adding Global Git Config..."
+e_header "Adding Global Git Config..."
   echo  "Whats your name? [Enter]: "
   read name
   echo "What's your email? [Enter]: "
@@ -47,29 +49,37 @@ echo "Adding Global Git Config..."
   echo "git config --global user.email '$email'" >> .bash_profile.local
 
 # Install zsh
-echo  "Installing zsh..."
+e_header  "Installing zsh..."
   brew install zsh
   sudo mv /etc/zshenv /etc/zprofile
 
-echo  "Install bash-completion..."
-	brew install git bash-completion
+e_header "Install bash-completion..."
+  brew install git bash-completion
 
-echo "Creating ~/Site folders"
-	mkdir -p ~/Sites/Personal
-	mkdir -p ~/Sites/Clients
+e_header "Creating ~/Site folders"
+  mkdir -p ~/Sites/Personal
+  mkdir -p ~/Sites/Clients
 
-echo "Install Solarized terminal theme"
-	git clone git://github.com/tomislav/osx-lion-terminal.app-colors-solarized.git ~/Sites/Personal/solarized-terminal
-	open ~/Sites/Personal/solarized-terminal/Solarized\ Light.terminal
-	open ~/Sites/Personal/solarized-terminal/Solarized\ Dark.terminal
-	sleep 1 # Wait a bit to make sure the theme is loaded
-	defaults write com.apple.terminal "Default Window Settings" -string "Solarized Light"
-	defaults write com.apple.terminal "Startup Window Settings" -string "Solarized Light"
+e_header "Install Solarized terminal theme"
+  git clone git://github.com/tomislav/osx-lion-terminal.app-colors-solarized.git ~/Sites/Personal/solarized-terminal
+  open ~/Sites/Personal/solarized-terminal/Solarized\ Light.terminal
+  open ~/Sites/Personal/solarized-terminal/Solarized\ Dark.terminal
+  sleep 1 # Wait a bit to make sure the theme is loaded
+  defaults write com.apple.terminal "Default Window Settings" -string "Solarized Light"
+  defaults write com.apple.terminal "Startup Window Settings" -string "Solarized Light"
 
-echo "Installing ImageMagick, good for cropping and re-sizing images ..."
+e_header "Installing ImageMagick, good for cropping and re-sizing images ..."
   brew install imagemagick
 
-echo "Installing optipng, a PNG optimizer that recompresses the image files to a smaller size, without losing any information. ..."
+e_header "Installing optipng, a PNG optimizer that recompresses the image files to a smaller size, without losing any information. ..."
   brew install optipng
 
-source .bash_profile.local
+e_success "Boom... success"
+
+source .bash_profile
+
+
+curl -s https://raw.github.com/newism/osx-dev-tools/master/git | sh
+curl -s https://raw.github.com/newism/osx-dev-tools/master/ruby | sh
+curl -s https://raw.github.com/newism/osx-dev-tools/master/node | sh
+curl -s https://raw.github.com/newism/osx-dev-tools/master/php | sh
