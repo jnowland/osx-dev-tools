@@ -49,9 +49,9 @@ e_header "Adding Global Git Config..."
   echo "git config --global user.email '$email'" >> .bash_profile.local
 
 # Install zsh
-e_header  "Installing zsh..."
-  brew install zsh
-  sudo mv /etc/zshenv /etc/zprofile
+# e_header  "Installing zsh..."
+#   brew install zsh
+#   sudo mv /etc/zshenv /etc/zprofile
 
 e_header "Install bash-completion..."
   brew install git bash-completion
@@ -60,7 +60,6 @@ e_header "Creating ~/Site folders"
   mkdir -p ~/Sites/Work/Clients
   mkdir -p ~/Sites/Work/Internal
   mkdir -p ~/Sites/Home
-
 
 e_header "Install Solarized terminal theme"
   git clone git://github.com/tomislav/osx-lion-terminal.app-colors-solarized.git ~/Sites/Work/Internal/solarized-terminal
@@ -78,8 +77,7 @@ e_header "Installing optipng, a PNG optimizer that recompresses the image files 
 
 e_success "Boom... success"
 
-source .bash_profile
-
+source ~/.bash_profile
 
 curl -s https://raw.github.com/newism/osx-dev-tools/master/git | sh
 curl -s https://raw.github.com/newism/osx-dev-tools/master/ruby | sh
