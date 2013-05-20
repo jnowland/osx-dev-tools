@@ -1,4 +1,10 @@
 #!/bin/sh
 
-echo  "Installing Gitflow..."
+source ~/.bash_profile
+source ./lib/utils
+
+e_header  "Installing Gitflow..."
   brew install git-flow
+
+e_header "Installing Hub..."
+	brew install hub
