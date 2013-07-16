@@ -75,6 +75,24 @@ e_header "Installing ImageMagick, good for cropping and re-sizing images ..."
 e_header "Installing optipng, a PNG optimizer that recompresses the image files to a smaller size, without losing any information. ..."
   brew install optipng
 
+e_header  "Creating SSL Certificate and updating Apache..."
+  mkdir ssl
+  cd ssl
+  openssl genrsa -des3 -out server.key 1024
+  openssl req -new -key server.key -out server.csr
+  cp server.key server.key.org
+  openssl rsa -in server.key.org -out server.key
+  openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+  sudo cp server.crt /private/etc/apache2/server.crt
+  sudo cp server.key /private/etc/apache2/server.key
+
+  # Include SSL Conf in /private/etc/apache2/httpd.conf
+  sudo sed -i .bak 's/\#Include \/private\/etc\/apache2\/extra\/httpd-ssl.conf/Include \/private\/etc\/apache2\/extra\/httpd-ssl.conf/g' /private/etc/apache2/httpd.conf
+  sudo apachectl restart
+  open https:localhost
+
+  cd ../
+
 e_success "Boom... success"
 
 source ~/.bash_profile
