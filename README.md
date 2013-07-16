@@ -16,7 +16,8 @@ Install
 
 Run the script:
 
-    curl -s https://raw.github.com/newism/osx-dev-tools/master/mac | sh
+    git clone https://github.com/newism/osx-dev-tools.git
+    ./osx-dev-tools/mac
 
 
 What it sets up
