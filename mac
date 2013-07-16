@@ -79,7 +79,7 @@ e_success "Boom... success"
 
 source ~/.bash_profile
 
-curl -s https://raw.github.com/newism/osx-dev-tools/master/git | sh
-curl -s https://raw.github.com/newism/osx-dev-tools/master/ruby | sh
-curl -s https://raw.github.com/newism/osx-dev-tools/master/node | sh
-curl -s https://raw.github.com/newism/osx-dev-tools/master/php | sh
+./git
+./ruby
+./node
+./php
