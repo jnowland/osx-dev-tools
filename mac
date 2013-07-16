@@ -76,6 +76,7 @@ e_header "Installing optipng, a PNG optimizer that recompresses the image files 
   brew install optipng
 
 e_header  "Creating SSL Certificate and updating Apache..."
+# See: http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/
   mkdir ssl
   cd ssl
   openssl genrsa -des3 -out server.key 1024
