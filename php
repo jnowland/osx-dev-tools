@@ -17,6 +17,7 @@ e_header "Installing PHP 5.4..."
 
 e_header "Updating the date.timezone setting in /usr/local/etc/php/5.4/php.ini"
     sed -i .bak 's/\;date.timezone =/date.timezone = "Australia\/Sydney"/g' /usr/local/etc/php/5.4/php.ini
+    sed -i .bak 's/\;auto_detect_line_endings = Off/auto_detect_line_endings = On/g' /usr/local/etc/php/5.4/php.ini
 
 e_header "Installing PHP 5.4 xDebug..."
   brew install php54-xdebug
@@ -52,6 +53,8 @@ e_header "Installing PHP 5.3..."
 
 e_header "Updating the date.timezone setting in /usr/local/etc/php/5.3/php.ini"
     sed -i .bak 's/\;date.timezone =/date.timezone = "Australia\/Sydney"/g' /usr/local/etc/php/5.3/php.ini
+    sed -i .bak 's/\;auto_detect_line_endings = Off/auto_detect_line_endings = On/g' /usr/local/etc/php/5.3/php.ini
+
 
 e_header "Installing PHP 5.3 xDebug..."
   brew install php53-xdebug
