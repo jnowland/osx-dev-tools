@@ -67,7 +67,7 @@ And replace the path with:
 or
 
     # PHP 5.4
-    LoadModule php5_module /usr/local/opt/php53/libexec/apache2/libphp5.so
+    LoadModule php5_module /usr/local/opt/php54/libexec/apache2/libphp5.so
     
 Add this line to the bottom of the file:
 
